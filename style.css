@@ -1,0 +1,14 @@
+th {
+    position: relative;
+    font-size: 80px;
+    width: 100px;
+    height: 100px;
+   /* background-color: #fc08f4;*/
+}
+table {
+    border: 4px solid #404040;
+    display: table;
+    border-collapse: separate;
+    border-spacing: 0px;
+    border-color: grey;
+}
