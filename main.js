@@ -133,42 +133,66 @@ function choise(selectedCell, wtMove) {
         WPmoveANDcheck(selectedCell, wtMove);
     }
     if ( boardm[+(selectedCell[1])] [+(selectedCell[0])] == "WKG" ){
-        WKGmoveANDcheck(selectedCell, wtMove);
+        let side = 'W';
+        let nameFigure = 'WKG';
+        let progCheck = 1;
+        KingMoveANDcheck(selectedCell,wtMove,side,nameFigure,progCheck)
     }
     if ( boardm[+(selectedCell[1])] [+(selectedCell[0])] == "BKG" ){
-        BKGmoveANDcheck(selectedCell, wtMove);
+        let side = 'B';
+        let nameFigure = 'BKG';
+        let progCheck = 0;
+        KingMoveANDcheck(selectedCell,wtMove,side,nameFigure,progCheck)
     }
     if ( boardm[+(selectedCell[1])] [+(selectedCell[0])] == "BK" ){
-        BKmoveANDcheck(selectedCell, wtMove);
+        let side = 'B';
+        let nameFigure = 'BK';
+        let progCheck = 0;
+        KnightMoveANDcheck(selectedCell, wtMove, side, nameFigure, progCheck);
     }
     if ( boardm[+(selectedCell[1])] [+(selectedCell[0])] == "WK" ){
-        WKmoveANDcheck(selectedCell, wtMove);
+        let side = 'W';
+        let nameFigure = 'WK';
+        let progCheck = 1;
+        KnightMoveANDcheck(selectedCell, wtMove, side, nameFigure, progCheck);
     }
     if ( boardm[+(selectedCell[1])] [+(selectedCell[0])] == "WR" ){
-        var type = "WR"
-        WRmoveANDcheck(selectedCell, wtMove, type);
+        let side = 'W';
+        let nameFigure = 'WR';
+        let progCheck = 1;
+        RookMoveANDcheck(selectedCell, wtMove, side, nameFigure, progCheck);
     }
     if ( boardm[+(selectedCell[1])] [+(selectedCell[0])] == "BR" ){
-        var type = "BR";
-        BRmoveANDcheck(selectedCell, wtMove, type);
+        let side = 'B';
+        let nameFigure = 'BR';
+        let progCheck = 0;
+        RookMoveANDcheck(selectedCell, wtMove, side, nameFigure, progCheck);
     }
     if ( boardm[+(selectedCell[1])] [+(selectedCell[0])] == "BB" ){
-        var type = "BB";
-        BBmoveANDcheck(selectedCell, wtMove, type);
+        let side = 'B';
+        let nameFigure = 'BB';
+        let progCheck = 0;
+        BishopMoveANDcheck(selectedCell,wtMove, side, nameFigure, progCheck)
     }
     if ( boardm[+(selectedCell[1])] [+(selectedCell[0])] == "WB" ){
-        var type = "WB"
-        WBmoveANDcheck(selectedCell, wtMove, type);
+        let side = 'W';
+        let nameFigure = 'WB';
+        let progCheck = 1;
+        BishopMoveANDcheck(selectedCell,wtMove, side, nameFigure, progCheck)
     }
     if ( boardm[+(selectedCell[1])] [+(selectedCell[0])] == "BQ" ){
-        var type = "BQ";
-        BBmoveANDcheck(selectedCell, wtMove, type);
-        BRmoveANDcheck(selectedCell, wtMove, type);
+        let side = 'B';
+        let nameFigure = 'BQ';
+        let progCheck = 0;
+        BishopMoveANDcheck(selectedCell,wtMove, side, nameFigure, progCheck)
+        RookMoveANDcheck(selectedCell, wtMove, side, nameFigure, progCheck);
     }
     if ( boardm[+(selectedCell[1])] [+(selectedCell[0])] == "WQ" ){
-        var type = "WQ"
-        WBmoveANDcheck(selectedCell, wtMove, type);
-        WRmoveANDcheck(selectedCell, wtMove, type);
+        let side = 'W';
+        let nameFigure = 'WQ';
+        let progCheck = 1;
+        BishopMoveANDcheck(selectedCell,wtMove, side, nameFigure, progCheck)
+        RookMoveANDcheck(selectedCell, wtMove, side, nameFigure, progCheck);
     }
 }
 function BPmoveANDcheck(selectedCell, wtMove) {
@@ -208,20 +232,19 @@ function WPmoveANDcheck(selectedCell, wtMove) {
             boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
             boardm[+(wtMove[1])][+(wtMove[0])] = 'WP';
             refresh();
-            
         }
     }
     refresh();
 }
-function WKGmoveANDcheck(selectedCell,wtMove) {
-    if ( boardm[+(wtMove[1])][+(wtMove[0])][0] !== 'W' ) {
+function KingMoveANDcheck(selectedCell,wtMove,side,nameFigure,progCheck) {
+    if ( boardm[+(wtMove[1])][+(wtMove[0])][0] !== side ) {
         
         if (wtMove[1] == selectedCell[1] || +(wtMove[1]) + 1 == selectedCell[1] || wtMove[1] - 1 == selectedCell[1]) {
             if (wtMove[0] == selectedCell[0] || +(wtMove[0]) + 1 == selectedCell[0] || wtMove[0] - 1 == selectedCell[0]) {                        
-                progressСhecker = 1;
+                progressСhecker = progCheck;
                 win(wtMove);
                 boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
-                boardm[+(wtMove[1])][+(wtMove[0])] = 'WKG';
+                boardm[+(wtMove[1])][+(wtMove[0])] = nameFigure;
                 refresh();
                 
             }
@@ -230,62 +253,27 @@ function WKGmoveANDcheck(selectedCell,wtMove) {
     }
     refresh();
 }
-function BKGmoveANDcheck(selectedCell,wtMove) {
-    if ( boardm[+(wtMove[1])][+(wtMove[0])][0] !== 'B' ) {
-        
-        if (wtMove[1] == selectedCell[1] || +(wtMove[1]) + 1 == selectedCell[1] || wtMove[1] - 1 == selectedCell[1]) {
-            if (wtMove[0] == selectedCell[0] || +(wtMove[0]) + 1 == selectedCell[0] || wtMove[0] - 1 == selectedCell[0]) {                        
-                progressСhecker = 0;
-                win(wtMove);
-                boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
-                boardm[+(wtMove[1])][+(wtMove[0])] = 'BKG';
-                refresh();
-            }
-        }
-    }
-    refresh();
-}
-function BKmoveANDcheck(selectedCell,wtMove) {
-    if ( boardm[+(wtMove[1])][+(wtMove[0])][0] !== 'B' ) {
+function KnightMoveANDcheck(selectedCell,wtMove,side,nameFigure,progCheck) {
+    if ( boardm[+(wtMove[1])][+(wtMove[0])][0] !== side ) {
         if ( (wtMove[1] - 2 == selectedCell[1] || +(wtMove[1]) + 2 == selectedCell[1]) && (wtMove[0] - 1 == selectedCell[0] || +(wtMove[0]) + 1 == selectedCell[0]) ){
-            progressСhecker = 0;
+            progressСhecker = progCheck;
             win(wtMove);
             boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
-            boardm[+(wtMove[1])][+(wtMove[0])] = 'BK';
+            boardm[+(wtMove[1])][+(wtMove[0])] = nameFigure;
             refresh();
         }
         if ( (wtMove[0] - 2 == selectedCell[0] || +(wtMove[0]) + 2 == selectedCell[0]) && (wtMove[1] - 1 == selectedCell[1] || +(wtMove[1]) + 1 == selectedCell[1]) ){
-            progressСhecker = 0;
+            progressСhecker = progCheck;
             win(wtMove);
             boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
-            boardm[+(wtMove[1])][+(wtMove[0])] = 'BK';
+            boardm[+(wtMove[1])][+(wtMove[0])] = nameFigure;
             refresh();
         }
     }
     refresh();
 }
-function WKmoveANDcheck(selectedCell,wtMove) {
-    if ( boardm[+(wtMove[1])][+(wtMove[0])][0] !== 'W' ) {
-        if ( (wtMove[1] - 2 == selectedCell[1] || +(wtMove[1]) + 2 == selectedCell[1]) && (wtMove[0] - 1 == selectedCell[0] || +(wtMove[0]) + 1 == selectedCell[0]) ){
-            progressСhecker = 1;
-            win(wtMove);
-            boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
-            boardm[+(wtMove[1])][+(wtMove[0])] = 'WK';
-            refresh();
-            
-        }
-        if ( (wtMove[0] - 2 == selectedCell[0] || +(wtMove[0]) + 2 == selectedCell[0]) && (wtMove[1] - 1 == selectedCell[1] || +(wtMove[1]) + 1 == selectedCell[1]) ){
-            progressСhecker = 1;
-            win(wtMove);
-            boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
-            boardm[+(wtMove[1])][+(wtMove[0])] = 'WK';
-            refresh();
-        }
-    }
-    refresh();
-}
-function WRmoveANDcheck(selectedCell,wtMove, type) {
-    if ( boardm[+(wtMove[1])][+(wtMove[0])][0] !== 'W' ) {
+function RookMoveANDcheck(selectedCell,wtMove, side, nameFigure, progCheck) {
+    if ( boardm[+(wtMove[1])][+(wtMove[0])][0] !== side ) {
         if ( wtMove[0] == selectedCell[0] )  {
             
             if (+(wtMove[1]) > selectedCell[1]) {
@@ -304,10 +292,10 @@ function WRmoveANDcheck(selectedCell,wtMove, type) {
                     }
                 }
             }
-            progressСhecker = 1;
+            progressСhecker = progCheck;
             win(wtMove);
             boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
-            boardm[+(wtMove[1])][+(wtMove[0])] = type;
+            boardm[+(wtMove[1])][+(wtMove[0])] = nameFigure;
             refresh();
         }
         if (wtMove[1] == selectedCell[1]) {
@@ -327,69 +315,17 @@ function WRmoveANDcheck(selectedCell,wtMove, type) {
                     }
                 }
             }
-            progressСhecker = 1;
+            progressСhecker = progCheck;
             win(wtMove);
             boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
-            boardm[+(wtMove[1])][+(wtMove[0])] = type;
+            boardm[+(wtMove[1])][+(wtMove[0])] = nameFigure;
             refresh();
         }
     }
     refresh();
 }
-function BRmoveANDcheck(selectedCell,wtMove, type) {
-    if ( boardm[+(wtMove[1])][+(wtMove[0])][0] !== 'B' ) {
-        if ( wtMove[0] == selectedCell[0] )  {
-            
-            if (+(wtMove[1]) > selectedCell[1]) {
-                for ( var i = +(selectedCell[1]) + 1; i < +(wtMove[1]); i++ ) {
-                    if ( boardm[i][+(wtMove[0])] != '0' ) {
-                        refresh();
-                        return;
-                    }
-                }
-            }
-            if (+(wtMove[1]) < selectedCell[1]) {
-                for ( var i = +(wtMove[1]) + 1; i < +(selectedCell[1]); i++ ) {
-                    if ( boardm[i][+(wtMove[0])] != '0' ) {
-                        refresh();
-                        return;
-                    }
-                }
-            }
-            progressСhecker = 0;
-            win(wtMove);
-            boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
-            boardm[+(wtMove[1])][+(wtMove[0])] = type;
-            refresh();
-        }
-        if (wtMove[1] == selectedCell[1]) {
-            if (+(wtMove[0]) > selectedCell[0]) {
-                for ( var i = +(selectedCell[0]) + 1; i < +(wtMove[0]); i++ ) {
-                    if ( boardm[+(wtMove[1])][i] != '0' ) {
-                        refresh();
-                        return;
-                    }
-                }
-            }
-            if (+(wtMove[0]) < selectedCell[0]) {
-                for ( var i = +(wtMove[0]) + 1; i < +(selectedCell[0]); i++ ) {
-                    if ( boardm[+(wtMove[1])][i] != '0' ) {
-                        refresh();
-                        return;
-                    }
-                }
-            }
-            progressСhecker = 0;
-            win(wtMove);
-            boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
-            boardm[+(wtMove[1])][+(wtMove[0])] = type;
-            refresh();
-        }
-    }
-    refresh();
-}
-function BBmoveANDcheck(selectedCell,wtMove, type) {
-    if ( boardm[+(wtMove[1])][+(wtMove[0])][0] !== 'B' ) {
+function BishopMoveANDcheck(selectedCell,wtMove, side, nameFigure, progCheck) {
+    if ( boardm[+(wtMove[1])][+(wtMove[0])][0] !== side ) {
         if ( wtMove[1] > selectedCell[1] && wtMove[0] > selectedCell[0]) {
             if ( +(wtMove[1]) - +(selectedCell[1]) == +(wtMove[0]) - +(selectedCell[0])) {
                 for (var i = +(selectedCell[1])+1, j = +selectedCell[0]+1; i < wtMove[1]; i++, j++) {
@@ -398,10 +334,10 @@ function BBmoveANDcheck(selectedCell,wtMove, type) {
                         return ;
                     }
                 }
-                progressСhecker = 0;
+                progressСhecker = progCheck;
                 win(wtMove);
                 boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
-                boardm[+(wtMove[1])][+(wtMove[0])] = type;
+                boardm[+(wtMove[1])][+(wtMove[0])] = nameFigure;
                 refresh();
             }
         }  
@@ -414,10 +350,10 @@ function BBmoveANDcheck(selectedCell,wtMove, type) {
                         return ;
                     }
                 }
-                progressСhecker = 0;
+                progressСhecker = progCheck;
                 win(wtMove);
                 boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
-                boardm[+(wtMove[1])][+(wtMove[0])] = type;
+                boardm[+(wtMove[1])][+(wtMove[0])] = nameFigure;
                 refresh();
                 
             }  
@@ -430,10 +366,10 @@ function BBmoveANDcheck(selectedCell,wtMove, type) {
                         return ;
                     }
                 }
-                progressСhecker = 0;
+                progressСhecker = progCheck;
                 win(wtMove);
                 boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
-                boardm[+(wtMove[1])][+(wtMove[0])] = type;
+                boardm[+(wtMove[1])][+(wtMove[0])] = nameFigure;
                 refresh();
             }
         } 
@@ -445,82 +381,17 @@ function BBmoveANDcheck(selectedCell,wtMove, type) {
                     }
                 }
             if ( +(wtMove[1]) + +(wtMove[0]) == +selectedCell[1] + +selectedCell[0]) {
-                progressСhecker = 0;
+                progressСhecker = progCheck;
                 win(wtMove);
                 boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
-                boardm[+(wtMove[1])][+(wtMove[0])] = type;
+                boardm[+(wtMove[1])][+(wtMove[0])] = nameFigure;
                 refresh();
             }
         } 
     }
     refresh();
 }
-function WBmoveANDcheck(selectedCell,wtMove, type) {
-    if ( boardm[+(wtMove[1])][+(wtMove[0])][0] !== 'W' ) {
-        if ( wtMove[1] > selectedCell[1] && wtMove[0] > selectedCell[0]) {
-            if ( +(wtMove[1]) - +(selectedCell[1]) == +(wtMove[0]) - +(selectedCell[0])) {
-                for (var i = +(selectedCell[1])+1, j = +selectedCell[0]+1; i < wtMove[1]; i++, j++) {
-                    if ( boardm[i][j] != "0") { 
-                        refresh();
-                        return ;
-                    }
-                }
-                progressСhecker = 1;
-                win(wtMove);
-                boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
-                boardm[+(wtMove[1])][+(wtMove[0])] = type;
-                refresh();
-                }
-            }  
-        
-        if ( wtMove[1] < selectedCell[1] && wtMove[0] < selectedCell[0]) {
-            if ( +(selectedCell[1]) - +(wtMove[1]) == +(selectedCell[0]) - +(wtMove[0]) ) {
-                for (var i = +(wtMove[1])+1, j = +wtMove[0]+1; i < selectedCell[1]; i++, j++) {
-                    if ( boardm[i][j] != "0") { 
-                        refresh();
-                        return ;
-                    }
-                }
-                boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
-                progressСhecker = 1;
-                win(wtMove);
-                boardm[+(wtMove[1])][+(wtMove[0])] = type;
-                refresh();
-            }  
-        }
-        if ( wtMove[1] < selectedCell[1] && wtMove[0] > selectedCell[0]) {
-            if ( +(wtMove[1]) + +(wtMove[0]) == +selectedCell[1] + +selectedCell[0]) {
-                for ( var i = +wtMove[1] + 1, j = +wtMove[0] - 1; i <  selectedCell[1]; i++, j--) {
-                    if ( boardm[i][j] != "0") {
-                        refresh();
-                        return ;
-                    }
-                }
-                boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
-                progressСhecker = 1;
-                win(wtMove);
-                boardm[+(wtMove[1])][+(wtMove[0])] = type;
-                refresh();
-            }
-        } 
-        if ( wtMove[1] > selectedCell[1] && wtMove[0] < selectedCell[0]) {
-            for ( var i = +selectedCell[1] + 1, j = +selectedCell[0] - 1; i <  wtMove[1]; i++, j--) {
-                    if ( boardm[i][j] != "0") {
-                        refresh();
-                        return ;
-                    }
-                }
-            if ( +(wtMove[1]) + +(wtMove[0]) == +selectedCell[1] + +selectedCell[0]) {
-                progressСhecker = 1;
-                win(wtMove);
-                boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
-                boardm[+(wtMove[1])][+(wtMove[0])] = type;
-                refresh();
-            }
-        } 
-    }
-    refresh();
-}
+
 //let board = Board([["let bp3 = bP('00')",'','','','','','',''],['','','','','','','',''],['','','','','','','',''],['','','','','','','',''],['','','','','','','',''],['','','','','','','',''],['','','','','','','',''],['','','','','','','','']]);
 const cell = document.getElementById('target.id');                                                                                      
  //   const cell = document.getElementById('target.id');
