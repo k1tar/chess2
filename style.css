@@ -8,6 +8,7 @@ th {
 }
 table {
     border: 4px solid #404040;
+    margin: auto;
     display: table;
     border-collapse: separate;
     border-spacing: 0px; 
@@ -15,4 +16,7 @@ table {
 }
 .highlight {
     font-size: 100px;
+}
+.win {
+    background-image: url(./iconchess/EB20TTAWsAUPpRE.jpg);
 }
