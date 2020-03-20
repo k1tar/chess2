@@ -1,4 +1,5 @@
 th {
+    user-select: none;
     position: relative;
     font-size: 80px;
     width: 120px;

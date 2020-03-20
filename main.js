@@ -87,79 +87,58 @@ function progressСheck(element) {
 }
 function choise(selectedCell, wtMove) {
     switch ( boardm[+(selectedCell[1])] [+(selectedCell[0])] ){
-    
         case "BP" : BPmoveANDcheck(selectedCell, wtMove); break;
         case "WP" : WPmoveANDcheck(selectedCell, wtMove); break;
         case "WKG" : {
-            let side = 'W';
-            let nameFigure = 'WKG';
-            let progCheck = 1;
-            KingMoveANDcheck(selectedCell,wtMove,side,nameFigure,progCheck)
+            const Figure = new Map([[1, 'W'],[2, 'WKG'],[3, 1]]);
+            KingMoveANDcheck(selectedCell,wtMove,Figure)
             break;
         }
         case "BKG" : {
-            let side = 'B';
-            let nameFigure = 'BKG';
-            let progCheck = 0;
-            KingMoveANDcheck(selectedCell,wtMove,side,nameFigure,progCheck)
+            const Figure = new Map([[1, 'B'],[2, 'BKG'],[3, 0]]);
+            KingMoveANDcheck(selectedCell,wtMove,Figure)
             break;
         }
         case "BK" : {
-            let side = 'B';
-            let nameFigure = 'BK';
-            let progCheck = 0;
-            KnightMoveANDcheck(selectedCell, wtMove, side, nameFigure, progCheck);
+            const Figure = new Map([[1, 'B'],[2, 'BK'],[3, 0]]);
+            KnightMoveANDcheck(selectedCell, wtMove, Figure);
             break;
         }
         case  "WK" : {
-            let side = 'W';
-            let nameFigure = 'WK';
-            let progCheck = 1;
-            KnightMoveANDcheck(selectedCell, wtMove, side, nameFigure, progCheck);
+            const Figure = new Map([[1, 'W'],[2, 'WK'],[3, 1]]);
+            KnightMoveANDcheck(selectedCell, wtMove, Figure);
             break;
         }
         case "WR" : {
-            let side = 'W';
-            let nameFigure = 'WR';
-            let progCheck = 1;
-            RookMoveANDcheck(selectedCell, wtMove, side, nameFigure, progCheck);
+            const Figure = new Map([[1, 'W'],[2, 'WR'],[3, 1]]);
+            RookMoveANDcheck(selectedCell, wtMove, Figure);
             break;
         }
         case "BR" : {
-            let side = 'B';
-            let nameFigure = 'BR';
-            let progCheck = 0;
-            RookMoveANDcheck(selectedCell, wtMove, side, nameFigure, progCheck);
+            const Figure = new Map([[1, 'B'],[2, 'BR'],[3, 0]]);
+            RookMoveANDcheck(selectedCell, wtMove, Figure);
             break;
         }
         case "BB" : {
-            let side = 'B';
-            let nameFigure = 'BB';
-            let progCheck = 0;
-            BishopMoveANDcheck(selectedCell,wtMove, side, nameFigure, progCheck)
+            const Figure = new Map([[1, 'B'],[2, 'BB'],[3, 0]]);
+            BishopMoveANDcheck(selectedCell,wtMove, Figure);
             break;
         }
         case "WB" : {
-            let side = 'W';
-            let nameFigure = 'WB';
-            let progCheck = 1;
-            BishopMoveANDcheck(selectedCell,wtMove, side, nameFigure, progCheck)
+            const Figure = new Map([[1, 'W'],[2, 'WB'],[3, 1]]);
+            BishopMoveANDcheck(selectedCell,wtMove, Figure)
             break;
         }
         case "BQ" : {
-            let side = 'B';
-            let nameFigure = 'BQ';
-            let progCheck = 0;
-            BishopMoveANDcheck(selectedCell,wtMove, side, nameFigure, progCheck)
-            RookMoveANDcheck(selectedCell, wtMove, side, nameFigure, progCheck);
+            const Figure = new Map([[1, 'B'],[2, 'BQ'],[3, 0]]);
+            BishopMoveANDcheck(selectedCell,wtMove, Figure)
+            RookMoveANDcheck(selectedCell, wtMove, Figure);
             break;
         }
         case "WQ" : {
-            let side = 'W';
-            let nameFigure = 'WQ';
-            let progCheck = 1;
-            BishopMoveANDcheck(selectedCell,wtMove, side, nameFigure, progCheck)
-            RookMoveANDcheck(selectedCell, wtMove, side, nameFigure, progCheck);
+            const Figure = new Map([[1, 'W'],[2, 'WQ'],[3, 1]]);
+            BishopMoveANDcheck(selectedCell,wtMove, Figure)
+            RookMoveANDcheck(selectedCell, wtMove, Figure);
             break;
         }
     }
@@ -205,15 +184,15 @@ function WPmoveANDcheck(selectedCell, wtMove) {
     }
     refresh();
 }
-function KingMoveANDcheck(selectedCell,wtMove,side,nameFigure,progCheck) {
-    if ( boardm[+(wtMove[1])][+(wtMove[0])][0] !== side ) {
+function KingMoveANDcheck(selectedCell,wtMove,Figure) {
+    if ( boardm[+(wtMove[1])][+(wtMove[0])][0] !== Figure.get(1) ) {
         
         if (wtMove[1] == selectedCell[1] || +(wtMove[1]) + 1 == selectedCell[1] || wtMove[1] - 1 == selectedCell[1]) {
             if (wtMove[0] == selectedCell[0] || +(wtMove[0]) + 1 == selectedCell[0] || wtMove[0] - 1 == selectedCell[0]) {                        
-                progressСhecker = progCheck;
+                progressСhecker = Figure.get(3);
                 win(wtMove);
                 boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
-                boardm[+(wtMove[1])][+(wtMove[0])] = nameFigure;
+                boardm[+(wtMove[1])][+(wtMove[0])] = Figure.get(2);
                 refresh();
                 
             }
@@ -222,27 +201,27 @@ function KingMoveANDcheck(selectedCell,wtMove,side,nameFigure,progCheck) {
     }
     refresh();
 }
-function KnightMoveANDcheck(selectedCell,wtMove,side,nameFigure,progCheck) {
-    if ( boardm[+(wtMove[1])][+(wtMove[0])][0] !== side ) {
+function KnightMoveANDcheck(selectedCell,wtMove,Figure) {
+    if ( boardm[+(wtMove[1])][+(wtMove[0])][0] !== Figure.get(1) ) {
         if ( (wtMove[1] - 2 == selectedCell[1] || +(wtMove[1]) + 2 == selectedCell[1]) && (wtMove[0] - 1 == selectedCell[0] || +(wtMove[0]) + 1 == selectedCell[0]) ){
-            progressСhecker = progCheck;
+            progressСhecker = Figure.get(3);
             win(wtMove);
             boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
-            boardm[+(wtMove[1])][+(wtMove[0])] = nameFigure;
+            boardm[+(wtMove[1])][+(wtMove[0])] = Figure.get(2);
             refresh();
         }
         if ( (wtMove[0] - 2 == selectedCell[0] || +(wtMove[0]) + 2 == selectedCell[0]) && (wtMove[1] - 1 == selectedCell[1] || +(wtMove[1]) + 1 == selectedCell[1]) ){
-            progressСhecker = progCheck;
+            progressСhecker = Figure.get(3);
             win(wtMove);
             boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
-            boardm[+(wtMove[1])][+(wtMove[0])] = nameFigure;
+            boardm[+(wtMove[1])][+(wtMove[0])] = Figure.get(2);
             refresh();
         }
     }
     refresh();
 }
-function RookMoveANDcheck(selectedCell,wtMove, side, nameFigure, progCheck) {
-    if ( boardm[+(wtMove[1])][+(wtMove[0])][0] !== side ) {
+function RookMoveANDcheck(selectedCell,wtMove, Figure) {
+    if ( boardm[+(wtMove[1])][+(wtMove[0])][0] !== Figure.get(1) ) {
         if ( wtMove[0] == selectedCell[0] )  {
             
             if (+(wtMove[1]) > selectedCell[1]) {
@@ -261,10 +240,10 @@ function RookMoveANDcheck(selectedCell,wtMove, side, nameFigure, progCheck) {
                     }
                 }
             }
-            progressСhecker = progCheck;
+            progressСhecker = Figure.get(3);
             win(wtMove);
             boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
-            boardm[+(wtMove[1])][+(wtMove[0])] = nameFigure;
+            boardm[+(wtMove[1])][+(wtMove[0])] = Figure.get(2);
             refresh();
         }
         if (wtMove[1] == selectedCell[1]) {
@@ -284,17 +263,17 @@ function RookMoveANDcheck(selectedCell,wtMove, side, nameFigure, progCheck) {
                     }
                 }
             }
-            progressСhecker = progCheck;
+            progressСhecker = Figure.get(3);
             win(wtMove);
             boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
-            boardm[+(wtMove[1])][+(wtMove[0])] = nameFigure;
+            boardm[+(wtMove[1])][+(wtMove[0])] = Figure.get(2);
             refresh();
         }
     }
     refresh();
 }
-function BishopMoveANDcheck(selectedCell,wtMove, side, nameFigure, progCheck) {
-    if ( boardm[+(wtMove[1])][+(wtMove[0])][0] !== side ) {
+function BishopMoveANDcheck(selectedCell,wtMove, Figure) {
+    if ( boardm[+(wtMove[1])][+(wtMove[0])][0] !== Figure.get(1) ) {
         if ( wtMove[1] > selectedCell[1] && wtMove[0] > selectedCell[0]) {
             if ( +(wtMove[1]) - +(selectedCell[1]) == +(wtMove[0]) - +(selectedCell[0])) {
                 for (var i = +(selectedCell[1])+1, j = +selectedCell[0]+1; i < wtMove[1]; i++, j++) {
@@ -303,10 +282,10 @@ function BishopMoveANDcheck(selectedCell,wtMove, side, nameFigure, progCheck) {
                         return ;
                     }
                 }
-                progressСhecker = progCheck;
+                progressСhecker = Figure.get(3);
                 win(wtMove);
                 boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
-                boardm[+(wtMove[1])][+(wtMove[0])] = nameFigure;
+                boardm[+(wtMove[1])][+(wtMove[0])] = Figure.get(2);
                 refresh();
             }
         }  
@@ -319,10 +298,10 @@ function BishopMoveANDcheck(selectedCell,wtMove, side, nameFigure, progCheck) {
                         return ;
                     }
                 }
-                progressСhecker = progCheck;
+                progressСhecker = Figure.get(3);
                 win(wtMove);
                 boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
-                boardm[+(wtMove[1])][+(wtMove[0])] = nameFigure;
+                boardm[+(wtMove[1])][+(wtMove[0])] = Figure.get(2);
                 refresh();
                 
             }  
@@ -335,10 +314,10 @@ function BishopMoveANDcheck(selectedCell,wtMove, side, nameFigure, progCheck) {
                         return ;
                     }
                 }
-                progressСhecker = progCheck;
+                progressСhecker = Figure.get(3);
                 win(wtMove);
                 boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
-                boardm[+(wtMove[1])][+(wtMove[0])] = nameFigure;
+                boardm[+(wtMove[1])][+(wtMove[0])] = Figure.get(2);
                 refresh();
             }
         } 
@@ -350,10 +329,10 @@ function BishopMoveANDcheck(selectedCell,wtMove, side, nameFigure, progCheck) {
                     }
                 }
             if ( +(wtMove[1]) + +(wtMove[0]) == +selectedCell[1] + +selectedCell[0]) {
-                progressСhecker = progCheck;
+                progressСhecker = Figure.get(3);
                 win(wtMove);
                 boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
-                boardm[+(wtMove[1])][+(wtMove[0])] = nameFigure;
+                boardm[+(wtMove[1])][+(wtMove[0])] = Figure.get(2);
                 refresh();
             }
         } 
