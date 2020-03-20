@@ -11,60 +11,23 @@ var boardm = [['BR','BK','BB','BQ','BKG','BB','BK','BR'],
 function refresh() {
     for ( var i = 0; i<8; i++ ) {
         for ( var j = 0; j<8; j++ ) {
-            if ( boardm[j][i] == 'BP' ) {
-                //document.getElementById(+(String(i))+(String(j))).innerHTML = "&#9823;" + +(String(j))+(String(i));
-                document.getElementById(+(String(i))+(String(j))).innerHTML = "&#9823;"
-            }
-            if ( boardm[j][i] == 'WP') {                        
-                //document.getElementById(+(String(i))+(String(j))).innerHTML = "&#9817;"+ +(String(j))+(String(i));
-                document.getElementById(+(String(i))+(String(j))).innerHTML = "&#9817;";
-            }
-            if ( boardm[j][i] == '0') {                        
-                //document.getElementById(+(String(i))+(String(j))).innerHTML = "&nbsp;"+ +(String(j))+(String(i));
-                document.getElementById(+(String(i))+(String(j))).innerHTML = "&nbsp;";
-            }
-            if ( boardm[j][i] == 'WKG') {                        
-                //document.getElementById(+(String(i))+(String(j))).innerHTML = "&#9812;"+ +(String(i))+(String(j));
-                document.getElementById(+(String(i))+(String(j))).innerHTML = "&#9812;";
-            }
-            if ( boardm[j][i] == 'BKG') {                        
-                //document.getElementById(+(String(i))+(String(j))).innerHTML = "&#9818;"+ +(String(i))+(String(j));
-                document.getElementById(+(String(i))+(String(j))).innerHTML = "&#9818;";
-            }
-            if ( boardm[j][i] == 'BK') {                        
-                //document.getElementById(+(String(i))+(String(j))).innerHTML = "&#9822;"+ +(String(i))+(String(j));
-                document.getElementById(+(String(i))+(String(j))).innerHTML = "&#9822;";
-            }
-            if ( boardm[j][i] == 'WK') {                        
-                //document.getElementById(+(String(i))+(String(j))).innerHTML = "&#9816;"+ +(String(i))+(String(j));
-                document.getElementById(+(String(i))+(String(j))).innerHTML = "&#9816;";
-            }
-            if ( boardm[j][i] == 'WR') {                        
-                //document.getElementById(+(String(i))+(String(j))).innerHTML = "&#9814;"+ +(String(i))+(String(j));
-                document.getElementById(+(String(i))+(String(j))).innerHTML = "&#9814;";
-            }
-            if ( boardm[j][i] == 'BR') {                        
-                
-                document.getElementById(+(String(i))+(String(j))).innerHTML = "&#9820;";
-            }
-            if ( boardm[j][i] == 'BB') {                        
-                
-                document.getElementById(+(String(i))+(String(j))).innerHTML = "&#9821;";
-            }
-            if ( boardm[j][i] == 'WB') {                        
-                
-                document.getElementById(+(String(i))+(String(j))).innerHTML = "&#9815;";
-            }
-            if ( boardm[j][i] == 'WQ') {                        
-                
-                document.getElementById(+(String(i))+(String(j))).innerHTML = "&#9813;";
-            }
-            if ( boardm[j][i] == 'BQ') {                        
-                
-                document.getElementById(+(String(i))+(String(j))).innerHTML = "&#9819;";
+            switch(boardm[j][i]){
+                case 'BP' :  document.getElementById(''+i+j).innerHTML = "&#9823;"; break;
+                case 'WP' : document.getElementById(''+i+j).innerHTML = "&#9817;"; break;
+                case '0' : document.getElementById(''+i+j).innerHTML = "&nbsp;"; break;
+                case 'WKG' : document.getElementById(''+i+j).innerHTML = "&#9812;"; break;
+                case 'BKG' :  document.getElementById(''+i+j).innerHTML = "&#9818;"; break;
+                case 'BK' : document.getElementById(''+i+j).innerHTML = "&#9822;"; break;
+                case 'WK' : document.getElementById(''+i+j).innerHTML = "&#9816;"; break;
+                case 'WR' : document.getElementById(''+i+j).innerHTML = "&#9814;"; break;
+                case 'BR' : document.getElementById(''+i+j).innerHTML = "&#9820;"; break;
+                case 'BB' : document.getElementById(''+i+j).innerHTML = "&#9821;"; break;
+                case 'WB' : document.getElementById(''+i+j).innerHTML = "&#9815;"; break;
+                case 'WQ' : document.getElementById(''+i+j).innerHTML = "&#9813;"; break;
+                case 'BQ': document.getElementById(''+i+j).innerHTML = "&#9819;"; break;
             }
         
-        document.getElementById(+(String(i))+(String(j))).classList.remove('highlight');
+        document.getElementById(''+i+j).classList.remove('highlight');
         
         }
     }
@@ -123,76 +86,82 @@ function progressСheck(element) {
     return false;
 }
 function choise(selectedCell, wtMove) {
-    //i = +(id[1]);
-    //j = +(id[0]);
+    switch ( boardm[+(selectedCell[1])] [+(selectedCell[0])] ){
     
-    if ( boardm[+(selectedCell[1])] [+(selectedCell[0])] == "BP") {
-        BPmoveANDcheck(selectedCell, wtMove);
-    }
-    if ( boardm[+(selectedCell[1])] [+(selectedCell[0])] == "WP" ) {
-        WPmoveANDcheck(selectedCell, wtMove);
-    }
-    if ( boardm[+(selectedCell[1])] [+(selectedCell[0])] == "WKG" ){
-        let side = 'W';
-        let nameFigure = 'WKG';
-        let progCheck = 1;
-        KingMoveANDcheck(selectedCell,wtMove,side,nameFigure,progCheck)
-    }
-    if ( boardm[+(selectedCell[1])] [+(selectedCell[0])] == "BKG" ){
-        let side = 'B';
-        let nameFigure = 'BKG';
-        let progCheck = 0;
-        KingMoveANDcheck(selectedCell,wtMove,side,nameFigure,progCheck)
-    }
-    if ( boardm[+(selectedCell[1])] [+(selectedCell[0])] == "BK" ){
-        let side = 'B';
-        let nameFigure = 'BK';
-        let progCheck = 0;
-        KnightMoveANDcheck(selectedCell, wtMove, side, nameFigure, progCheck);
-    }
-    if ( boardm[+(selectedCell[1])] [+(selectedCell[0])] == "WK" ){
-        let side = 'W';
-        let nameFigure = 'WK';
-        let progCheck = 1;
-        KnightMoveANDcheck(selectedCell, wtMove, side, nameFigure, progCheck);
-    }
-    if ( boardm[+(selectedCell[1])] [+(selectedCell[0])] == "WR" ){
-        let side = 'W';
-        let nameFigure = 'WR';
-        let progCheck = 1;
-        RookMoveANDcheck(selectedCell, wtMove, side, nameFigure, progCheck);
-    }
-    if ( boardm[+(selectedCell[1])] [+(selectedCell[0])] == "BR" ){
-        let side = 'B';
-        let nameFigure = 'BR';
-        let progCheck = 0;
-        RookMoveANDcheck(selectedCell, wtMove, side, nameFigure, progCheck);
-    }
-    if ( boardm[+(selectedCell[1])] [+(selectedCell[0])] == "BB" ){
-        let side = 'B';
-        let nameFigure = 'BB';
-        let progCheck = 0;
-        BishopMoveANDcheck(selectedCell,wtMove, side, nameFigure, progCheck)
-    }
-    if ( boardm[+(selectedCell[1])] [+(selectedCell[0])] == "WB" ){
-        let side = 'W';
-        let nameFigure = 'WB';
-        let progCheck = 1;
-        BishopMoveANDcheck(selectedCell,wtMove, side, nameFigure, progCheck)
-    }
-    if ( boardm[+(selectedCell[1])] [+(selectedCell[0])] == "BQ" ){
-        let side = 'B';
-        let nameFigure = 'BQ';
-        let progCheck = 0;
-        BishopMoveANDcheck(selectedCell,wtMove, side, nameFigure, progCheck)
-        RookMoveANDcheck(selectedCell, wtMove, side, nameFigure, progCheck);
-    }
-    if ( boardm[+(selectedCell[1])] [+(selectedCell[0])] == "WQ" ){
-        let side = 'W';
-        let nameFigure = 'WQ';
-        let progCheck = 1;
-        BishopMoveANDcheck(selectedCell,wtMove, side, nameFigure, progCheck)
-        RookMoveANDcheck(selectedCell, wtMove, side, nameFigure, progCheck);
+        case "BP" : BPmoveANDcheck(selectedCell, wtMove); break;
+        case "WP" : WPmoveANDcheck(selectedCell, wtMove); break;
+        case "WKG" : {
+            let side = 'W';
+            let nameFigure = 'WKG';
+            let progCheck = 1;
+            KingMoveANDcheck(selectedCell,wtMove,side,nameFigure,progCheck)
+            break;
+        }
+        case "BKG" : {
+            let side = 'B';
+            let nameFigure = 'BKG';
+            let progCheck = 0;
+            KingMoveANDcheck(selectedCell,wtMove,side,nameFigure,progCheck)
+            break;
+        }
+        case "BK" : {
+            let side = 'B';
+            let nameFigure = 'BK';
+            let progCheck = 0;
+            KnightMoveANDcheck(selectedCell, wtMove, side, nameFigure, progCheck);
+            break;
+        }
+        case  "WK" : {
+            let side = 'W';
+            let nameFigure = 'WK';
+            let progCheck = 1;
+            KnightMoveANDcheck(selectedCell, wtMove, side, nameFigure, progCheck);
+            break;
+        }
+        case "WR" : {
+            let side = 'W';
+            let nameFigure = 'WR';
+            let progCheck = 1;
+            RookMoveANDcheck(selectedCell, wtMove, side, nameFigure, progCheck);
+            break;
+        }
+        case "BR" : {
+            let side = 'B';
+            let nameFigure = 'BR';
+            let progCheck = 0;
+            RookMoveANDcheck(selectedCell, wtMove, side, nameFigure, progCheck);
+            break;
+        }
+        case "BB" : {
+            let side = 'B';
+            let nameFigure = 'BB';
+            let progCheck = 0;
+            BishopMoveANDcheck(selectedCell,wtMove, side, nameFigure, progCheck)
+            break;
+        }
+        case "WB" : {
+            let side = 'W';
+            let nameFigure = 'WB';
+            let progCheck = 1;
+            BishopMoveANDcheck(selectedCell,wtMove, side, nameFigure, progCheck)
+            break;
+        }
+        case "BQ" : {
+            let side = 'B';
+            let nameFigure = 'BQ';
+            let progCheck = 0;
+            BishopMoveANDcheck(selectedCell,wtMove, side, nameFigure, progCheck)
+            RookMoveANDcheck(selectedCell, wtMove, side, nameFigure, progCheck);
+            break;
+        }
+        case "WQ" : {
+            let side = 'W';
+            let nameFigure = 'WQ';
+            let progCheck = 1;
+            BishopMoveANDcheck(selectedCell,wtMove, side, nameFigure, progCheck)
+            RookMoveANDcheck(selectedCell, wtMove, side, nameFigure, progCheck);
+            break;
+        }
     }
 }
 function BPmoveANDcheck(selectedCell, wtMove) {
