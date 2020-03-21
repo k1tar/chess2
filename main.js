@@ -35,10 +35,12 @@ function refresh() {
 }
 function arrayEntry(selectedCell,wtMove,Figure) {
     progressСhecker = Figure.get(3);
+    recordingMoves(selectedCell,wtMove);
     win(wtMove);
     boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
     boardm[+(wtMove[1])][+(wtMove[0])] = Figure.get(2);
     refresh();
+    
 }
 function win(wtMove,itIsKing) {
     
@@ -54,11 +56,51 @@ function win(wtMove,itIsKing) {
     }
 }
 let table = document.getElementById('table');
-
+let p = document.querySelector('p');
 refresh();
-var progressСhecker = 0;
+let progressСhecker = 0;
+let recordingMovesCounter = -1;
+function recordingMoves(selectedCell,wtMove){
+    let textInPre = p.innerHTML;
+    let FiguraFoRecording;
+    switch (boardm[+(selectedCell[1])][+(selectedCell[0])]) {
+        case 'BP' : FiguraFoRecording  = "&#9823;"; break;
+        case 'WP' : FiguraFoRecording = "&#9817;"; break;
+        case 'WKG' : FiguraFoRecording = "&#9812;"; break;
+        case 'BKG' : FiguraFoRecording = "&#9818;"; break;
+        case 'BK' : FiguraFoRecording = "&#9822;"; break;
+        case 'WK' : FiguraFoRecording = "&#9816;"; break;
+        case 'WR' : FiguraFoRecording = "&#9814;"; break;
+        case 'BR' : FiguraFoRecording = "&#9820;"; break;
+        case 'BB' : FiguraFoRecording = "&#9821;"; break;
+        case 'WB' : FiguraFoRecording = "&#9815;"; break;
+        case 'WQ' : FiguraFoRecording = "&#9813;"; break;
+        case 'BQ': FiguraFoRecording = "&#9819;"; break;
+    }
+    if( recordingMovesCounter === 4) {
+        textInPre =  FiguraFoRecording + "|" + selectedCell[1] + selectedCell[0] + ' --> ' + wtMove[1] + wtMove[0] + "|" + "&nbsp;&nbsp;&nbsp;&nbsp;" + "<br >"+ textInPre;
+        recordingMovesCounter = 0;
+    }
+    else {
+        textInPre = FiguraFoRecording + "|"  + selectedCell[1] + selectedCell[0] + ' --> ' + wtMove[1] + wtMove[0] + "|" + "&nbsp;&nbsp;&nbsp;&nbsp;" + textInPre;
+        recordingMovesCounter++;
+    }
+    p.innerHTML = textInPre;
+}
 var index1;
 var index2;
+let isPPressed = 0;
+p.onmouseup = function(){
+    if (isPPressed === 0 ) {
+        p.classList.add('pressedP');
+        isPPressed = 1;
+    }
+    else {
+        p.classList.remove('pressedP');
+        isPPressed = 0;
+    }
+}
+
 table.onmouseup = function(event) {
     let target = event.target;
     if ( k === 2 ) {
@@ -150,6 +192,7 @@ function BPmoveANDcheck(selectedCell, wtMove) {
     if ( boardm[+(wtMove[1])][+(wtMove[0])][0] !== 'B' ) {
         if ( (selectedCell[0] === wtMove[0] && selectedCell[1] == +(wtMove[1]) - 1 || (selectedCell[0] ===  wtMove[0] && selectedCell[1] == 1 && wtMove[1] == 3 && boardm[2][b] == '0' )) && boardm[+(wtMove[1])][+(wtMove[0])][0] != 'W') {
             progressСhecker = 0;
+            recordingMoves(selectedCell,wtMove);
             win(wtMove);
             boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
             boardm[+(wtMove[1])][+(wtMove[0])] = 'BP';
@@ -158,6 +201,7 @@ function BPmoveANDcheck(selectedCell, wtMove) {
         }
         if ( (selectedCell[0] == wtMove[0] - 1 || selectedCell[0] == +(wtMove[0]) + 1 ) && selectedCell[1] == +(wtMove[1]) - 1 && boardm[+(wtMove[1])][+(wtMove[0])][0] == 'W' ) {
             progressСhecker = 0;
+            recordingMoves(selectedCell,wtMove);
             win(wtMove);
             boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
             boardm[+(wtMove[1])][+(wtMove[0])] = 'BP';
@@ -171,6 +215,7 @@ function WPmoveANDcheck(selectedCell, wtMove) {
     if ( boardm[+(wtMove[1])][+(wtMove[0])][0] !== 'W' ) {
         if ( ( selectedCell[0] === wtMove[0] && selectedCell[1] == +(wtMove[1]) + 1 || (selectedCell[0] === wtMove[0] && selectedCell[1] == 6 && wtMove[1] == 4 && boardm[5][b] == '0' ) ) && boardm[+(wtMove[1])][+(wtMove[0])][0] != 'B')    {
             progressСhecker = 1;
+            recordingMoves(selectedCell,wtMove);
             win(wtMove);
             boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
             boardm[+(wtMove[1])][+(wtMove[0])] = 'WP';
@@ -178,6 +223,7 @@ function WPmoveANDcheck(selectedCell, wtMove) {
         }
         if ( ((selectedCell[0] == +(wtMove[0]) - 1 || selectedCell[0] == +(wtMove[0]) + 1 ) && selectedCell[1] == +(wtMove[1]) + 1) && boardm[+(wtMove[1])][+(wtMove[0])][0] == 'B' ) {
             progressСhecker = 1;
+            recordingMoves(selectedCell,wtMove);
             win(wtMove);
             boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
             boardm[+(wtMove[1])][+(wtMove[0])] = 'WP';

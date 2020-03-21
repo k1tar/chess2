@@ -20,3 +20,18 @@ table {
 .win {
     background-image: url(./iconchess/EB20TTAWsAUPpRE.jpg);
 }
+p {
+    margin: auto;
+    overflow: auto;
+    border: 4px solid #404040;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    font-size: 30px;
+    background-color: #fa02d5;
+    width: 70%;
+    height: 41px;
+    font-family: monospace;
+}
+.pressedP {
+    height: 164px;
+}
