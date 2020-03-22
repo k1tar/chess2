@@ -12,19 +12,19 @@ function refresh() {
     for ( var i = 0; i<8; i++ ) {
         for ( var j = 0; j<8; j++ ) {
             switch(boardm[j][i]){
-                case 'BP' :  document.getElementById(''+i+j).innerHTML = "&#9823;"; break;
-                case 'WP' : document.getElementById(''+i+j).innerHTML = "&#9817;"; break;
-                case '0' : document.getElementById(''+i+j).innerHTML = "&nbsp;"; break;
-                case 'WKG' : document.getElementById(''+i+j).innerHTML = "&#9812;"; break;
-                case 'BKG' :  document.getElementById(''+i+j).innerHTML = "&#9818;"; break;
-                case 'BK' : document.getElementById(''+i+j).innerHTML = "&#9822;"; break;
-                case 'WK' : document.getElementById(''+i+j).innerHTML = "&#9816;"; break;
-                case 'WR' : document.getElementById(''+i+j).innerHTML = "&#9814;"; break;
-                case 'BR' : document.getElementById(''+i+j).innerHTML = "&#9820;"; break;
-                case 'BB' : document.getElementById(''+i+j).innerHTML = "&#9821;"; break;
-                case 'WB' : document.getElementById(''+i+j).innerHTML = "&#9815;"; break;
-                case 'WQ' : document.getElementById(''+i+j).innerHTML = "&#9813;"; break;
-                case 'BQ': document.getElementById(''+i+j).innerHTML = "&#9819;"; break;
+                case '0' : document.getElementById(''+i+j).innerHTML = "&nbsp"; break;
+                case 'BP' : document.getElementById(''+i+j).innerHTML = '<img src = "./iconchess/bP.png" class = "draggable">'; break;
+                case 'WP' : document.getElementById(''+i+j).innerHTML = '<img src = "./iconchess/wP.png" class = "draggable">'; break;
+                case 'WKG': document.getElementById(''+i+j).innerHTML = '<img src = "./iconchess/wK.png" class = "draggable">'; break;
+                case 'BKG': document.getElementById(''+i+j).innerHTML = '<img src = "./iconchess/bK.png" class = "draggable">'; break;
+                case 'BK' : document.getElementById(''+i+j).innerHTML = '<img src = "./iconchess/bN.png" class = "draggable">'; break;
+                case 'WK' : document.getElementById(''+i+j).innerHTML = '<img src = "./iconchess/wN.png" class = "draggable">'; break;
+                case 'WR' : document.getElementById(''+i+j).innerHTML = '<img src = "./iconchess/wR.png" class = "draggable">'; break;
+                case 'BR' : document.getElementById(''+i+j).innerHTML = '<img src = "./iconchess/bR.png" class = "draggable">'; break;
+                case 'BB' : document.getElementById(''+i+j).innerHTML = '<img src = "./iconchess/bB.png" class = "draggable">'; break;
+                case 'WB' : document.getElementById(''+i+j).innerHTML = '<img src = "./iconchess/wB.png" class = "draggable">'; break;
+                case 'WQ' : document.getElementById(''+i+j).innerHTML = '<img src = "./iconchess/wQ.png" class = "draggable">'; break;
+                case 'BQ' : document.getElementById(''+i+j).innerHTML = '<img src = "./iconchess/bQ.png" class = "draggable">'; break;
             }
         
         document.getElementById(''+i+j).classList.remove('highlight');
@@ -47,7 +47,7 @@ function win(wtMove,itIsKing) {
     if (boardm[wtMove[1]][wtMove[0]] == 'WKG' && progressСhecker == 0) {
         alert( "Black Win, gg ez");
         progressСhecker = 2;
-        document.getElementById(body).classList.add('win');
+        document.getElementById('body').classList.add('win');
     }
     if (boardm[wtMove[1]][wtMove[0]] == 'BKG' && progressСhecker == 1) {
         alert( "White Win, gg ez");
@@ -88,7 +88,7 @@ function recordingMoves(selectedCell,wtMove){
     p.innerHTML = textInPre;
 }
 var index1;
-var index2;
+
 let isPPressed = 0;
 p.onmouseup = function(){
     if (isPPressed === 0 ) {
@@ -100,34 +100,95 @@ p.onmouseup = function(){
         isPPressed = 0;
     }
 }
-
-table.onmouseup = function(event) {
+table.onmousedown = function(event) {
     let target = event.target;
-    if ( k === 2 ) {
-        
-        target.classList.remove('highlight');
-        k = 0;
+    
+    if ( target.nodeName === "TH" ) { return; }
+    if ( target.innerHTML === "&nbsp;") {return; }
+    if (event.which != 1) return;
+    target.hidden = true;
+    // if (progressСheck(boardm[ +( target.id[1] ) ] [ +( target.id[0] ) ][0]) === false) return;
+    var index1 = document.elementFromPoint(event.clientX, event.clientY);
+    target.hidden = false;
+    if (progressСheck( boardm[index1.id[1]][index1.id[0]][0]) === false) {
+    refresh();return;
     }
-    if ( k === 1 ) {
-        
-        target.classList.remove('highlight'); 
-        index2 = target.id;
-        k++;
-        choise(index1, index2); 
+    target.style.position = 'absolute';
+    moveAt(event);
+    table.appendChild(target);
+    target.style.zIndex = 1000;
+    function moveAt(event) {
+        target.style.left = event.pageX - target.offsetWidth/2+ 'px';
+        target.style.top = event.pageY - target.offsetHeight/2+ 'px';
     }
-    if ( k==0 && boardm[ +( target.id[1] ) ] [ +( target.id[0] ) ] != '0') {
-        if (progressСheck(boardm[ +( target.id[1] ) ] [ +( target.id[0] ) ][0])) {
-            target.classList.add('highlight');
-            index1 = target.id;
-            k++;
-        }
-    }                     
+    target.ondragstart = function() {
+        return false;
+      }
+    document.onmousemove = function(event) {
+        moveAt(event);
+    }
+    table.onmouseup = function(e) {
+        
+        
+        target.hidden = true;
+        if ( target.nodeName === "HTML" ) { return; }
+        let index2 = document.elementFromPoint(e.clientX, e.clientY);
+        let gavno = ebaniyDADrop(index2, e);
+        
+        choise(index1.id, gavno);
+        document.onmousemove = null;
+        target.onmousup = null;
+        target  = {};
+        return;
+        
+
+
+    }
+    function ebaniyDADrop(index, e) { 
+    if ( index.nodeName !== "TH" ) {
+        index.hidden = true;
+        index = document.elementFromPoint(e.clientX, e.clientY);
+        ebaniyDADrop(index, e);
+    }
+    return index.id;
+    }
+
 }
+
+
+
+// table.onmouseup = function(event) {
+
+//     let target = event.target;
+//     if ( k === 2 ) {
+        
+//         target.classList.remove('highlight');
+//         k = 0;
+//     }
+//     if ( k === 1 ) {
+        
+//         target.classList.remove('highlight'); 
+//         index2 = target.id;
+//         k++;
+//         var elementToChange = document.getElementsByTagName("body")[0];
+//         elementToChange.style.cursor = "default";
+//         choise(index1, index2); 
+//     }
+//     if ( k==0 && boardm[ +( target.id[1] ) ] [ +( target.id[0] ) ] != '0') {
+//         if (progressСheck(boardm[ +( target.id[1] ) ] [ +( target.id[0] ) ][0])) {
+//             target.classList.add('highlight');
+//             index1 = target.id;
+//             k++;
+            
+//         }
+//     }      
+// }               
+
 function progressСheck(element) {
     if (progressСhecker == 2) return false;
-    if ( progressСhecker%2 == 0 && element == "W") return true;
-    if ( progressСhecker%2 == 1 && element == "B") return true;
-    return false;
+    else if ( progressСhecker%2 == 0 && element == "W") return true;
+    else if ( progressСhecker%2 == 1 && element == "B") return true;
+    else return false;
 }
 function choise(selectedCell, wtMove) {
     switch ( boardm[+(selectedCell[1])] [+(selectedCell[0])] ){
@@ -196,6 +257,7 @@ function BPmoveANDcheck(selectedCell, wtMove) {
             win(wtMove);
             boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
             boardm[+(wtMove[1])][+(wtMove[0])] = 'BP';
+            if (+wtMove[1] === 7) boardm[+(wtMove[1])][+(wtMove[0])] = 'BQ';
             refresh();
             
         }
@@ -205,6 +267,7 @@ function BPmoveANDcheck(selectedCell, wtMove) {
             win(wtMove);
             boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
             boardm[+(wtMove[1])][+(wtMove[0])] = 'BP';
+            if (+wtMove[1] === 7)boardm[+(wtMove[1])][+(wtMove[0])] = 'BQ';
             refresh();
         }
     }
@@ -219,6 +282,7 @@ function WPmoveANDcheck(selectedCell, wtMove) {
             win(wtMove);
             boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
             boardm[+(wtMove[1])][+(wtMove[0])] = 'WP';
+            if (+wtMove[1] === 0)boardm[+(wtMove[1])][+(wtMove[0])] = 'WQ';
             refresh();
         }
         if ( ((selectedCell[0] == +(wtMove[0]) - 1 || selectedCell[0] == +(wtMove[0]) + 1 ) && selectedCell[1] == +(wtMove[1]) + 1) && boardm[+(wtMove[1])][+(wtMove[0])][0] == 'B' ) {
@@ -227,6 +291,7 @@ function WPmoveANDcheck(selectedCell, wtMove) {
             win(wtMove);
             boardm[+(selectedCell[1])][+(selectedCell[0])] = '0';
             boardm[+(wtMove[1])][+(wtMove[0])] = 'WP';
+            if (+wtMove[1] === 0)boardm[+(wtMove[1])][+(wtMove[0])] = 'WQ';
             refresh();
         }
     }

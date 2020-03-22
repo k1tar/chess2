@@ -7,6 +7,7 @@ th {
    /* background-color: #fc08f4;*/
 }
 table {
+    
     border: 4px solid #404040;
     margin: auto;
     display: table;
@@ -29,9 +30,12 @@ p {
     font-size: 30px;
     background-color: #fa02d5;
     width: 70%;
-    height: 41px;
+    height: 40px;
     font-family: monospace;
 }
 .pressedP {
     height: 164px;
+}
+.poi {
+    cursor: url('./iconchess/bP.png');
 }
