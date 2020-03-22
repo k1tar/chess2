@@ -131,14 +131,14 @@ table.onmousedown = function(event) {
         
         
         target.hidden = true;
-        if ( target.nodeName === "HTML" ) { return; }
         let index2 = document.elementFromPoint(e.clientX, e.clientY);
-        let gavno = ebaniyDADrop(index2, e);
-        
-        choise(index1.id, gavno);
+        if ( index2.nodeName === "BODY" || index2.nodeName === "DIV" || index2.nodeName === "TABLE" || index2.nodeName === "P" || index2.nodeName === "HTML") { refresh();return; }
+        index2 = ebaniyDADrop(index2, e);
+        choise(index1.id, index2);
         document.onmousemove = null;
         target.onmousup = null;
         target  = {};
+        
         return;
         
 
