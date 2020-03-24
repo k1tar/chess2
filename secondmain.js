@@ -1,11 +1,27 @@
 "use strict";
+let isPPressed = 0;
+let p = document.querySelector('p');
+let recordingMovesCounter = -1;
 let table = document.getElementById('table');
+p.onmouseup = function(){                                                           // для изменения вида вывода ходов на экран
+    if (isPPressed === 0 ) {
+        p.classList.add('pressedP');
+        isPPressed = 1;
+    }
+    else {
+        p.classList.remove('pressedP');
+        isPPressed = 0;
+    }
+}
 table.onmousedown = function(event) {
 
     let target = event.target;
+    
     if ( target.nodeName === "BODY" || target.nodeName === "DIV" || target.nodeName === "TABLE" || target.nodeName === "P" || target.nodeName === "HTML" || target.nodeName ==="TH") { refresh(target.id, );return; }
     target.hidden = true;
+    
     let selectedCell = document.elementFromPoint(event.clientX, event.clientY);
+    if (b.progressСheck(b.boardArray[selectedCell.id[1]][selectedCell.id[0]].side) === false){b.refresh(selectedCell, );return;}
     console.log(selectedCell.id);
     target.hidden = false;
     target.style.position = 'absolute';
@@ -41,11 +57,9 @@ table.onmousedown = function(event) {
         return index;
     }
 }
-    
-
-let obj = ' ';
 class Board { 
     constructor ( start ) {
+        this.progressСhecker = 0
         console.log('chto za huiny');
         start = String(start);
         let k =0;
@@ -56,33 +70,39 @@ class Board {
                 let temp = start[k];
                 switch ( temp ){
                     case 'O' : this.boardArray[i][j] = new Empty(i,j) ;break;
-                    case 'p' : {this.boardArray[i][j] = new Pawn  (i,j,'b');this.boardArray[i][j].drawingFigure(); break;}
-                    case 'P' : {this.boardArray[i][j] = new Pawn  (i,j,'w');this.boardArray[i][j].drawingFigure(); break;}
-                    case 'h' : {this.boardArray[i][j] = new Knight(i,j,'b');this.boardArray[i][j].drawingFigure();break;}
-                    case 'H' : {this.boardArray[i][j] = new Knight(i,j,'w');this.boardArray[i][j].drawingFigure();break;}
-                    case 'k' : {this.boardArray[i][j] = new King  (i,j,'b');this.boardArray[i][j].drawingFigure();break;}
-                    case 'K' : {this.boardArray[i][j] = new King  (i,j,'w');this.boardArray[i][j].drawingFigure();break;}
-                    case 'b' : {this.boardArray[i][j] = new Bishop(i,j,'b');this.boardArray[i][j].drawingFigure();break;}
-                    case 'B' : {this.boardArray[i][j] = new Bishop(i,j,'w');this.boardArray[i][j].drawingFigure();break;}
-                    case 'r' : {this.boardArray[i][j] = new Rook  (i,j,'b');this.boardArray[i][j].drawingFigure();break;}
-                    case 'R' : {this.boardArray[i][j] = new Rook  (i,j,'w');this.boardArray[i][j].drawingFigure();break;}
-                    case 'q' : {this.boardArray[i][j] = new Queen (i,j,'b');this.boardArray[i][j].drawingFigure();break;}
-                    case 'Q' : {this.boardArray[i][j] = new Queen (i,j,'w');this.boardArray[i][j].drawingFigure();break;}
+                    case 'p' : {this.boardArray[i][j] = new Pawn  (i,j,'b','p');this.boardArray[i][j].drawingFigure(); break;}
+                    case 'P' : {this.boardArray[i][j] = new Pawn  (i,j,'w','P');this.boardArray[i][j].drawingFigure(); break;}
+                    case 'h' : {this.boardArray[i][j] = new Knight(i,j,'b','h');this.boardArray[i][j].drawingFigure();break;}
+                    case 'H' : {this.boardArray[i][j] = new Knight(i,j,'w','H');this.boardArray[i][j].drawingFigure();break;}
+                    case 'k' : {this.boardArray[i][j] = new King  (i,j,'b','k');this.boardArray[i][j].drawingFigure();break;}
+                    case 'K' : {this.boardArray[i][j] = new King  (i,j,'w','K');this.boardArray[i][j].drawingFigure();break;}
+                    case 'b' : {this.boardArray[i][j] = new Bishop(i,j,'b','b');this.boardArray[i][j].drawingFigure();break;}
+                    case 'B' : {this.boardArray[i][j] = new Bishop(i,j,'w','B');this.boardArray[i][j].drawingFigure();break;}
+                    case 'r' : {this.boardArray[i][j] = new Rook  (i,j,'b','r');this.boardArray[i][j].drawingFigure();break;}
+                    case 'R' : {this.boardArray[i][j] = new Rook  (i,j,'w','R');this.boardArray[i][j].drawingFigure();break;}
+                    case 'q' : {this.boardArray[i][j] = new Queen (i,j,'b','q');this.boardArray[i][j].drawingFigure();break;}
+                    case 'Q' : {this.boardArray[i][j] = new Queen (i,j,'w','Q');this.boardArray[i][j].drawingFigure();break;}
                 }
                 
             }
         
         }
-    }   
+    }
+   
     refresh(selectedCell,wtMove) {
-        // for ( let i = 0; i < 8; i++) {
-        //     for ( let j = 0; j < 8; j++){
-        //         this.boardArray[i][j].drawingFigure();
-        //     }
-        // }
-        if (selectedCell !== undefined && selectedCell !== NaN )this.boardArray[selectedCell[1]][selectedCell[0]].drawingFigure();
-        if (wtMove !== undefined && selectedCell !== NaN)this.boardArray[wtMove[1]][wtMove[0]].drawingFigure();
+        for ( let i = 0; i < 8; i++) {
+            for ( let j = 0; j < 8; j++){
+                this.boardArray[i][j].drawingFigure();
+            }
+        }
+        //if (selectedCell !== undefined && selectedCell !== NaN )this.boardArray[selectedCell[1]][selectedCell[0]].drawingFigure();
+        //if (wtMove !== undefined && selectedCell !== NaN)this.boardArray[wtMove.id[1]][wtMove.id[0]].drawingFigure();
         
+    }
+    progressСheck(element) {                                                    // проверяет какая сторона должна ходить в данный момент
+        if ( this.progressСhecker%2 == 0 && element == "w") return true;
+        else if ( this.progressСhecker%2 == 1 && element == "b") return true;
+        else return false;
     }
 }
 class Empty {
@@ -96,12 +116,12 @@ class Empty {
     }
 }
 class Pawn extends Board {
-    constructor(i,j,side) {
+    constructor(i,j,side,emp) {
         super();
         this.side = side;
         this.row = i;
         this.column = j;
-        this.emp = '1'
+        this.emp = emp;
     }
     drawingFigure() {
         if (this.side === 'b') document.getElementById(''+this.column+this.row).innerHTML = '<img src ="./iconchess/bP.png">';
@@ -111,24 +131,37 @@ class Pawn extends Board {
         if (this.side === 'w') {
             if( b.boardArray[wtMove[1]][wtMove[0]].side !== this.side){
                 if ( selectedCell[0] === wtMove[0] && ((+selectedCell[1] === +wtMove[1]+1) ||  (+selectedCell[1] === 6 && +selectedCell[1] === +wtMove[1] + 2)) && b.boardArray[wtMove[1]][wtMove[0]].side !== 'b') {
+                    recordingMoves(selectedCell,wtMove);
+                    b.progressСhecker++;
                     b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
-                    b.boardArray[+wtMove[1]][wtMove[0]] = new Pawn(+wtMove[1],+wtMove[0],this.side);
+                    b.boardArray[+wtMove[1]][wtMove[0]] = new Pawn(+wtMove[1],+wtMove[0],this.side,this.emp);
+                   
+
                 }
                 if (( +selectedCell[0] === +wtMove[0] + 1 || +selectedCell[0] === +wtMove[0] - 1) && +selectedCell[1] === +wtMove[1] + 1 && b.boardArray[wtMove[1]][wtMove[0]].side === 'b') {
+                    recordingMoves(selectedCell,wtMove);
+                    b.progressСhecker++;
                     b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
-                    b.boardArray[+wtMove[1]][wtMove[0]] = new Pawn(+wtMove[1],+wtMove[0],this.side);
+                    b.boardArray[+wtMove[1]][wtMove[0]] = new Pawn(+wtMove[1],+wtMove[0],this.side,this.emp);
+                    
                 }
             }
         }
         if (this.side === 'b') {
             if( b.boardArray[wtMove[1]][wtMove[0]].side !== this.side){
                 if ( selectedCell[0] === wtMove[0] && ((+selectedCell[1] === +wtMove[1]-1) ||  (+selectedCell[1] === 1 && +selectedCell[1] === +wtMove[1] - 2)) && b.boardArray[wtMove[1]][wtMove[0]].side !== 'w') {
+                    recordingMoves(selectedCell,wtMove);
+                    b.progressСhecker++;
                     b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
-                    b.boardArray[+wtMove[1]][wtMove[0]] = new Pawn(+wtMove[1],+wtMove[0],this.side);
+                    b.boardArray[+wtMove[1]][wtMove[0]] = new Pawn(+wtMove[1],+wtMove[0],this.side,this.emp);
+                    
                 }
                 if (( +selectedCell[0] === +wtMove[0] + 1 || +selectedCell[0] === +wtMove[0] - 1) && +selectedCell[1] === +wtMove[1] - 1 && b.boardArray[wtMove[1]][wtMove[0]].side === 'w') {
+                    recordingMoves(selectedCell,wtMove);
+                    b.progressСhecker++;
                     b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
-                    b.boardArray[+wtMove[1]][wtMove[0]] = new Pawn(+wtMove[1],+wtMove[0],this.side);
+                    b.boardArray[+wtMove[1]][wtMove[0]] = new Pawn(+wtMove[1],+wtMove[0],this.side,this.emp);
+                    
                 }
             }
         }
@@ -136,12 +169,12 @@ class Pawn extends Board {
     }
 }
 class King extends Board {
-    constructor(i,j,side) {
+    constructor(i,j,side,emp) {
         super();
         this.side = side;
         this.row = i;
         this.column = j;
-        this.emp = '1';
+        this.emp = emp;
     }
     drawingFigure() {
         if (this.side === 'b') document.getElementById(''+this.column+this.row).innerHTML = '<img src ="./iconchess/bK.png">';
@@ -151,8 +184,10 @@ class King extends Board {
         if( b.boardArray[wtMove[1]][wtMove[0]].side !== this.side){
             if (wtMove[1] == selectedCell[1] || +(wtMove[1]) + 1 == selectedCell[1] || wtMove[1] - 1 == selectedCell[1]) {
                 if (wtMove[0] == selectedCell[0] || +(wtMove[0]) + 1 == selectedCell[0] || wtMove[0] - 1 == selectedCell[0]) { 
+                    recordingMoves(selectedCell,wtMove);
+                    b.progressСhecker++;
                     b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
-                    b.boardArray[+wtMove[1]][wtMove[0]] = new King(+wtMove[1],+wtMove[0],this.side);
+                    b.boardArray[+wtMove[1]][wtMove[0]] = new King(+wtMove[1],+wtMove[0],this.side,this.emp);
                 }
             }
         }
@@ -160,11 +195,12 @@ class King extends Board {
     }
 }
 class Knight extends Board {
-    constructor(i,j,side) {
+    constructor(i,j,side,emp) {
         super();
         this.side = side;
         this.row = i;
         this.column = j;
+        this.emp = emp; 
     }
     drawingFigure() {
         if (this.side === 'b') document.getElementById(''+this.column+this.row).innerHTML = '<img src ="./iconchess/bN.png">';
@@ -174,24 +210,28 @@ class Knight extends Board {
         if( b.boardArray[wtMove[1]][wtMove[0]].side !== this.side){
             
             if ( (wtMove[1] - 2 == selectedCell[1] || +(wtMove[1]) + 2 == selectedCell[1]) && (wtMove[0] - 1 == selectedCell[0] || +(wtMove[0]) + 1 == selectedCell[0]) ){
+                recordingMoves(selectedCell,wtMove);
+                b.progressСhecker++;
                 b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
-                b.boardArray[+wtMove[1]][wtMove[0]] = new Knight(+wtMove[1],+wtMove[0],this.side);
+                b.boardArray[+wtMove[1]][wtMove[0]] = new Knight(+wtMove[1],+wtMove[0],this.side,this.emp);
             }
             if ( (wtMove[0] - 2 == selectedCell[0] || +(wtMove[0]) + 2 == selectedCell[0]) && (wtMove[1] - 1 == selectedCell[1] || +(wtMove[1]) + 1 == selectedCell[1]) ){
+                recordingMoves(selectedCell,wtMove);
+                b.progressСhecker++;
                 b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
-                b.boardArray[+wtMove[1]][wtMove[0]] = new Knight(+wtMove[1],+wtMove[0],this.side);
+                b.boardArray[+wtMove[1]][wtMove[0]] = new Knight(+wtMove[1],+wtMove[0],this.side,this.emp);
             }
         }
         b.refresh(selectedCell,wtMove);
     }
 }
 class Rook extends Board {
-    constructor(i,j,side) {
+    constructor(i,j,side,emp) {
         super();
         this.side = side;
         this.row = i;
         this.column = j;
-        this.emp = '1';
+        this.emp = emp;
     }
     drawingFigure() {
         if (this.side === 'b') document.getElementById(''+this.column+this.row).innerHTML = '<img src ="./iconchess/bR.png">';
@@ -217,8 +257,10 @@ class Rook extends Board {
                         }
                     }
                 }
+                recordingMoves(selectedCell,wtMove);
+                b.progressСhecker++;
                 b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
-                b.boardArray[+wtMove[1]][wtMove[0]] = new Rook(+wtMove[1],+wtMove[0],this.side);
+                b.boardArray[+wtMove[1]][wtMove[0]] = new Rook(+wtMove[1],+wtMove[0],this.side,this.emp);
             }
             if (wtMove[1] == selectedCell[1]) {
                 if (+(wtMove[0]) > selectedCell[0]) {
@@ -237,8 +279,10 @@ class Rook extends Board {
                         }
                     }
                 }
+                recordingMoves(selectedCell,wtMove);
+                b.progressСhecker++;
                 b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
-                b.boardArray[+wtMove[1]][wtMove[0]] = new Rook(+wtMove[1],+wtMove[0],this.side);
+                b.boardArray[+wtMove[1]][wtMove[0]] = new Rook(+wtMove[1],+wtMove[0],this.side,this.emp);
             }
             
         }
@@ -246,12 +290,12 @@ class Rook extends Board {
     }
 }
 class Bishop extends Board {
-    constructor(i,j,side) {
+    constructor(i,j,side,emp) {
         super();
         this.side = side;
         this.row = i;
         this.column = j;
-        this.emp = '1';
+        this.emp = emp;
     }
     drawingFigure() {
         if (this.side === 'b') document.getElementById(''+this.column+this.row).innerHTML = '<img src ="./iconchess/bB.png">';
@@ -267,8 +311,10 @@ class Bishop extends Board {
                             return ;
                         }
                     }
+                    recordingMoves(selectedCell,wtMove);
+                    b.progressСhecker++;
                     b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
-                    b.boardArray[+wtMove[1]][wtMove[0]] = new Bishop(+wtMove[1],+wtMove[0],this.side);
+                    b.boardArray[+wtMove[1]][wtMove[0]] = new Bishop(+wtMove[1],+wtMove[0],this.side,this.emp);
                 }
             }  
             
@@ -280,8 +326,10 @@ class Bishop extends Board {
                             return ;
                         }
                     }
+                    recordingMoves(selectedCell,wtMove);
+                    b.progressСhecker++;
                     b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
-                    b.boardArray[+wtMove[1]][wtMove[0]] = new Bishop(+wtMove[1],+wtMove[0],this.side);
+                    b.boardArray[+wtMove[1]][wtMove[0]] = new Bishop(+wtMove[1],+wtMove[0],this.side,this.emp);
                 }  
             }
             if ( wtMove[1] < selectedCell[1] && wtMove[0] > selectedCell[0]) {
@@ -292,8 +340,10 @@ class Bishop extends Board {
                             return ;
                         }
                     }
+                    recordingMoves(selectedCell,wtMove);
+                    b.progressСhecker++;
                     b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
-                    b.boardArray[+wtMove[1]][wtMove[0]] = new Bishop(+wtMove[1],+wtMove[0],this.side);
+                    b.boardArray[+wtMove[1]][wtMove[0]] = new Bishop(+wtMove[1],+wtMove[0],this.side,this.emp);
                 }
             } 
             if ( wtMove[1] > selectedCell[1] && wtMove[0] < selectedCell[0]) {
@@ -304,8 +354,10 @@ class Bishop extends Board {
                     }
                     }
                 if ( +(wtMove[1]) + +(wtMove[0]) == +selectedCell[1] + +selectedCell[0]) {
+                    recordingMoves(selectedCell,wtMove);
+                    b.progressСhecker++;
                     b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
-                    b.boardArray[+wtMove[1]][wtMove[0]] = new Bishop(+wtMove[1],+wtMove[0],this.side);
+                    b.boardArray[+wtMove[1]][wtMove[0]] = new Bishop(+wtMove[1],+wtMove[0],this.side,this.emp);
                 }
             }
         }
@@ -313,11 +365,12 @@ class Bishop extends Board {
     }
 }
 class Queen extends Board {
-    constructor(i,j,side) {
+    constructor(i,j,side,emp) {
         super();
         this.side = side;
         this.row = i;
         this.column = j;
+        this.emp = emp;
     }
     drawingFigure() {
         if (this.side === 'b') document.getElementById(''+this.column+this.row).innerHTML = '<img src ="./iconchess/bQ.png">';
@@ -343,8 +396,10 @@ class Queen extends Board {
                         }
                     }
                 }
+                recordingMoves(selectedCell,wtMove);
+                b.progressСhecker++;
                 b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
-                b.boardArray[+wtMove[1]][wtMove[0]] = new Queen(+wtMove[1],+wtMove[0],this.side);
+                b.boardArray[+wtMove[1]][wtMove[0]] = new Queen(+wtMove[1],+wtMove[0],this.side,this.emp);
             }
             if (wtMove[1] == selectedCell[1]) {
                 if (+(wtMove[0]) > selectedCell[0]) {
@@ -363,8 +418,10 @@ class Queen extends Board {
                         }
                     }
                 }
+                recordingMoves(selectedCell,wtMove);
+                b.progressСhecker++;
                 b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
-                b.boardArray[+wtMove[1]][wtMove[0]] = new Queen(+wtMove[1],+wtMove[0],this.side);
+                b.boardArray[+wtMove[1]][wtMove[0]] = new Queen(+wtMove[1],+wtMove[0],this.side,this.emp);
             }
             if ( wtMove[1] > selectedCell[1] && wtMove[0] > selectedCell[0]) {
                 if ( +(wtMove[1]) - +(selectedCell[1]) == +(wtMove[0]) - +(selectedCell[0])) {
@@ -374,8 +431,10 @@ class Queen extends Board {
                             return ;
                         }
                     }
+                    recordingMoves(selectedCell,wtMove);
+                    b.progressСhecker++;
                     b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
-                    b.boardArray[+wtMove[1]][wtMove[0]] = new Queen(+wtMove[1],+wtMove[0],this.side);
+                    b.boardArray[+wtMove[1]][wtMove[0]] = new Queen(+wtMove[1],+wtMove[0],this.side,this.emp);
                 }
             }  
             
@@ -387,8 +446,10 @@ class Queen extends Board {
                             return ;
                         }
                     }
+                    recordingMoves(selectedCell,wtMove);
+                    b.progressСhecker++;
                     b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
-                    b.boardArray[+wtMove[1]][wtMove[0]] = new Queen(+wtMove[1],+wtMove[0],this.side);
+                    b.boardArray[+wtMove[1]][wtMove[0]] = new Queen(+wtMove[1],+wtMove[0],this.side,this.emp);
                 }  
             }
             if ( wtMove[1] < selectedCell[1] && wtMove[0] > selectedCell[0]) {
@@ -399,8 +460,10 @@ class Queen extends Board {
                             return ;
                         }
                     }
+                    recordingMoves(selectedCell,wtMove);
+                    b.progressСhecker++;
                     b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
-                    b.boardArray[+wtMove[1]][wtMove[0]] = new Queen(+wtMove[1],+wtMove[0],this.side);
+                    b.boardArray[+wtMove[1]][wtMove[0]] = new Queen(+wtMove[1],+wtMove[0],this.side,this.emp);
                 }
             } 
             if ( wtMove[1] > selectedCell[1] && wtMove[0] < selectedCell[0]) {
@@ -411,14 +474,42 @@ class Queen extends Board {
                     }
                     }
                 if ( +(wtMove[1]) + +(wtMove[0]) == +selectedCell[1] + +selectedCell[0]) {
+                    recordingMoves(selectedCell,wtMove);
+                    b.progressСhecker++;
                     b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
-                    b.boardArray[+wtMove[1]][wtMove[0]] = new Queen(+wtMove[1],+wtMove[0],this.side);
+                    b.boardArray[+wtMove[1]][wtMove[0]] = new Queen(+wtMove[1],+wtMove[0],this.side,this.emp);
                 }
             }
         }
         b.refresh(selectedCell,wtMove);    
     }
 }
-//let start = 'OOOOpOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO';
+function recordingMoves(selectedCell,wtMove){                                       // для оформления вывода в элементе вывода ходов на экран 
+
+    let textInPre = p.innerHTML;
+    let FiguraFoRecording;
+    switch (b.boardArray[+(selectedCell[1])][+(selectedCell[0])].emp) {
+        case 'p' : FiguraFoRecording = "&#9823;"; break;
+        case 'P' : FiguraFoRecording = "&#9817;"; break;
+        case 'K' : FiguraFoRecording = "&#9812;"; break;
+        case 'k' : FiguraFoRecording = "&#9818;"; break;
+        case 'h' : FiguraFoRecording = "&#9822;"; break;
+        case 'H' : FiguraFoRecording = "&#9816;"; break;
+        case 'R' : FiguraFoRecording = "&#9814;"; break;
+        case 'r' : FiguraFoRecording = "&#9820;"; break;
+        case 'b' : FiguraFoRecording = "&#9821;"; break;
+        case 'B' : FiguraFoRecording = "&#9815;"; break;
+        case 'Q' : FiguraFoRecording = "&#9813;"; break;
+        case 'q' : FiguraFoRecording = "&#9819;"; break;
+    }
+    if( recordingMovesCounter === 4) {
+        textInPre =  FiguraFoRecording + "|" + selectedCell[1] + selectedCell[0] + ' --> ' + wtMove[1] + wtMove[0] + "|" + "&nbsp;&nbsp;&nbsp;&nbsp;" + "<br >"+ textInPre;
+        recordingMovesCounter = 0;
+    }
+    else {
+        textInPre = FiguraFoRecording + "|"  + selectedCell[1] + selectedCell[0] + ' --> ' + wtMove[1] + wtMove[0] + "|" + "&nbsp;&nbsp;&nbsp;&nbsp;" + textInPre;
+        recordingMovesCounter++;
+    }
+    p.innerHTML = textInPre;
+}
 let b = new Board('rhbqkbhrppppppppOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOPPPPPPPPRHBQKBHR');
-// let boardddd = new Board('OOOOpKkOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO');
