@@ -17,11 +17,11 @@ table.onmousedown = function(event) {
 
     let target = event.target;
     
-    if ( target.nodeName === "BODY" || target.nodeName === "DIV" || target.nodeName === "TABLE" || target.nodeName === "P" || target.nodeName === "HTML" || target.nodeName ==="TH") { refresh(target.id, );return; }
+    if ( target.nodeName === "BODY" || target.nodeName === "DIV" || target.nodeName === "TABLE" || target.nodeName === "P" || target.nodeName === "HTML" || target.nodeName ==="TH") { b.refresh(target.id, );return; }
     target.hidden = true;
     
     let selectedCell = document.elementFromPoint(event.clientX, event.clientY);
-    if (b.progressСheck(b.boardArray[selectedCell.id[1]][selectedCell.id[0]].side) === false){b.refresh(selectedCell, );return;}
+    if (b.progressСheck(b.boardArray[selectedCell.id[1]][selectedCell.id[0]].side) === false){b.refresh(selectedCell.id, );return;}
     console.log(selectedCell.id);
     target.hidden = false;
     target.style.position = 'absolute';
@@ -90,19 +90,31 @@ class Board {
     }
    
     refresh(selectedCell,wtMove) {
-        for ( let i = 0; i < 8; i++) {
-            for ( let j = 0; j < 8; j++){
-                this.boardArray[i][j].drawingFigure();
-            }
-        }
-        //if (selectedCell !== undefined && selectedCell !== NaN )this.boardArray[selectedCell[1]][selectedCell[0]].drawingFigure();
-        //if (wtMove !== undefined && selectedCell !== NaN)this.boardArray[wtMove.id[1]][wtMove.id[0]].drawingFigure();
+        // for ( let i = 0; i < 8; i++) {
+        //     for ( let j = 0; j < 8; j++){
+        //         this.boardArray[i][j].drawingFigure();
+        //     }
+        // }
+        
+        if (selectedCell !== undefined && selectedCell !== NaN )this.boardArray[selectedCell[1]][selectedCell[0]].drawingFigure();
+        if (wtMove !== undefined && selectedCell !== NaN)this.boardArray[wtMove[1]][wtMove[0]].drawingFigure();
         
     }
     progressСheck(element) {                                                    // проверяет какая сторона должна ходить в данный момент
+        
         if ( this.progressСhecker%2 == 0 && element == "w") return true;
         else if ( this.progressСhecker%2 == 1 && element == "b") return true;
         else return false;
+    }
+    win(wtMove) {
+        if ( b.boardArray[wtMove[1]][wtMove[0]].emp === 'k' && this.progressСhecker%2 === 0 ) {
+            this.progressСhecker = NaN; 
+            document.getElementById('body').classList.add('win');
+        }
+        if ( b.boardArray[wtMove[1]][wtMove[0]].emp === 'K' && this.progressСhecker%2 === 1 ){
+            this.progressСhecker = NaN;
+            document.getElementById('body').classList.add('win');
+        }
     }
 }
 class Empty {
@@ -132,6 +144,7 @@ class Pawn extends Board {
             if( b.boardArray[wtMove[1]][wtMove[0]].side !== this.side){
                 if ( selectedCell[0] === wtMove[0] && ((+selectedCell[1] === +wtMove[1]+1) ||  (+selectedCell[1] === 6 && +selectedCell[1] === +wtMove[1] + 2)) && b.boardArray[wtMove[1]][wtMove[0]].side !== 'b') {
                     recordingMoves(selectedCell,wtMove);
+                    b.win(wtMove);
                     b.progressСhecker++;
                     b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
                     b.boardArray[+wtMove[1]][wtMove[0]] = new Pawn(+wtMove[1],+wtMove[0],this.side,this.emp);
@@ -140,6 +153,7 @@ class Pawn extends Board {
                 }
                 if (( +selectedCell[0] === +wtMove[0] + 1 || +selectedCell[0] === +wtMove[0] - 1) && +selectedCell[1] === +wtMove[1] + 1 && b.boardArray[wtMove[1]][wtMove[0]].side === 'b') {
                     recordingMoves(selectedCell,wtMove);
+                    b.win(wtMove);
                     b.progressСhecker++;
                     b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
                     b.boardArray[+wtMove[1]][wtMove[0]] = new Pawn(+wtMove[1],+wtMove[0],this.side,this.emp);
@@ -151,6 +165,7 @@ class Pawn extends Board {
             if( b.boardArray[wtMove[1]][wtMove[0]].side !== this.side){
                 if ( selectedCell[0] === wtMove[0] && ((+selectedCell[1] === +wtMove[1]-1) ||  (+selectedCell[1] === 1 && +selectedCell[1] === +wtMove[1] - 2)) && b.boardArray[wtMove[1]][wtMove[0]].side !== 'w') {
                     recordingMoves(selectedCell,wtMove);
+                    b.win(wtMove);
                     b.progressСhecker++;
                     b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
                     b.boardArray[+wtMove[1]][wtMove[0]] = new Pawn(+wtMove[1],+wtMove[0],this.side,this.emp);
@@ -158,6 +173,7 @@ class Pawn extends Board {
                 }
                 if (( +selectedCell[0] === +wtMove[0] + 1 || +selectedCell[0] === +wtMove[0] - 1) && +selectedCell[1] === +wtMove[1] - 1 && b.boardArray[wtMove[1]][wtMove[0]].side === 'w') {
                     recordingMoves(selectedCell,wtMove);
+                    b.win(wtMove);
                     b.progressСhecker++;
                     b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
                     b.boardArray[+wtMove[1]][wtMove[0]] = new Pawn(+wtMove[1],+wtMove[0],this.side,this.emp);
@@ -185,6 +201,7 @@ class King extends Board {
             if (wtMove[1] == selectedCell[1] || +(wtMove[1]) + 1 == selectedCell[1] || wtMove[1] - 1 == selectedCell[1]) {
                 if (wtMove[0] == selectedCell[0] || +(wtMove[0]) + 1 == selectedCell[0] || wtMove[0] - 1 == selectedCell[0]) { 
                     recordingMoves(selectedCell,wtMove);
+                    b.win(wtMove);
                     b.progressСhecker++;
                     b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
                     b.boardArray[+wtMove[1]][wtMove[0]] = new King(+wtMove[1],+wtMove[0],this.side,this.emp);
@@ -211,12 +228,14 @@ class Knight extends Board {
             
             if ( (wtMove[1] - 2 == selectedCell[1] || +(wtMove[1]) + 2 == selectedCell[1]) && (wtMove[0] - 1 == selectedCell[0] || +(wtMove[0]) + 1 == selectedCell[0]) ){
                 recordingMoves(selectedCell,wtMove);
+                b.win(wtMove);
                 b.progressСhecker++;
                 b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
                 b.boardArray[+wtMove[1]][wtMove[0]] = new Knight(+wtMove[1],+wtMove[0],this.side,this.emp);
             }
             if ( (wtMove[0] - 2 == selectedCell[0] || +(wtMove[0]) + 2 == selectedCell[0]) && (wtMove[1] - 1 == selectedCell[1] || +(wtMove[1]) + 1 == selectedCell[1]) ){
                 recordingMoves(selectedCell,wtMove);
+                b.win(wtMove);
                 b.progressСhecker++;
                 b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
                 b.boardArray[+wtMove[1]][wtMove[0]] = new Knight(+wtMove[1],+wtMove[0],this.side,this.emp);
@@ -258,6 +277,7 @@ class Rook extends Board {
                     }
                 }
                 recordingMoves(selectedCell,wtMove);
+                b.win(wtMove);
                 b.progressСhecker++;
                 b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
                 b.boardArray[+wtMove[1]][wtMove[0]] = new Rook(+wtMove[1],+wtMove[0],this.side,this.emp);
@@ -280,6 +300,7 @@ class Rook extends Board {
                     }
                 }
                 recordingMoves(selectedCell,wtMove);
+                b.win(wtMove);
                 b.progressСhecker++;
                 b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
                 b.boardArray[+wtMove[1]][wtMove[0]] = new Rook(+wtMove[1],+wtMove[0],this.side,this.emp);
@@ -312,6 +333,7 @@ class Bishop extends Board {
                         }
                     }
                     recordingMoves(selectedCell,wtMove);
+                    b.win(wtMove);
                     b.progressСhecker++;
                     b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
                     b.boardArray[+wtMove[1]][wtMove[0]] = new Bishop(+wtMove[1],+wtMove[0],this.side,this.emp);
@@ -327,6 +349,7 @@ class Bishop extends Board {
                         }
                     }
                     recordingMoves(selectedCell,wtMove);
+                    b.win(wtMove);
                     b.progressСhecker++;
                     b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
                     b.boardArray[+wtMove[1]][wtMove[0]] = new Bishop(+wtMove[1],+wtMove[0],this.side,this.emp);
@@ -341,6 +364,7 @@ class Bishop extends Board {
                         }
                     }
                     recordingMoves(selectedCell,wtMove);
+                    b.win(wtMove);
                     b.progressСhecker++;
                     b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
                     b.boardArray[+wtMove[1]][wtMove[0]] = new Bishop(+wtMove[1],+wtMove[0],this.side,this.emp);
@@ -355,6 +379,7 @@ class Bishop extends Board {
                     }
                 if ( +(wtMove[1]) + +(wtMove[0]) == +selectedCell[1] + +selectedCell[0]) {
                     recordingMoves(selectedCell,wtMove);
+                    b.win(wtMove);
                     b.progressСhecker++;
                     b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
                     b.boardArray[+wtMove[1]][wtMove[0]] = new Bishop(+wtMove[1],+wtMove[0],this.side,this.emp);
@@ -397,6 +422,7 @@ class Queen extends Board {
                     }
                 }
                 recordingMoves(selectedCell,wtMove);
+                b.win(wtMove);
                 b.progressСhecker++;
                 b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
                 b.boardArray[+wtMove[1]][wtMove[0]] = new Queen(+wtMove[1],+wtMove[0],this.side,this.emp);
@@ -419,6 +445,7 @@ class Queen extends Board {
                     }
                 }
                 recordingMoves(selectedCell,wtMove);
+                b.win(wtMove);
                 b.progressСhecker++;
                 b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
                 b.boardArray[+wtMove[1]][wtMove[0]] = new Queen(+wtMove[1],+wtMove[0],this.side,this.emp);
@@ -432,6 +459,7 @@ class Queen extends Board {
                         }
                     }
                     recordingMoves(selectedCell,wtMove);
+                    b.win(wtMove);
                     b.progressСhecker++;
                     b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
                     b.boardArray[+wtMove[1]][wtMove[0]] = new Queen(+wtMove[1],+wtMove[0],this.side,this.emp);
@@ -447,6 +475,7 @@ class Queen extends Board {
                         }
                     }
                     recordingMoves(selectedCell,wtMove);
+                    b.win(wtMove);
                     b.progressСhecker++;
                     b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
                     b.boardArray[+wtMove[1]][wtMove[0]] = new Queen(+wtMove[1],+wtMove[0],this.side,this.emp);
@@ -461,6 +490,7 @@ class Queen extends Board {
                         }
                     }
                     recordingMoves(selectedCell,wtMove);
+                    b.win(wtMove);
                     b.progressСhecker++;
                     b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
                     b.boardArray[+wtMove[1]][wtMove[0]] = new Queen(+wtMove[1],+wtMove[0],this.side,this.emp);
@@ -475,6 +505,7 @@ class Queen extends Board {
                     }
                 if ( +(wtMove[1]) + +(wtMove[0]) == +selectedCell[1] + +selectedCell[0]) {
                     recordingMoves(selectedCell,wtMove);
+                    b.win(wtMove);
                     b.progressСhecker++;
                     b.boardArray[+selectedCell[1]][selectedCell[0]] = new Empty(+selectedCell[1],+selectedCell[0]);
                     b.boardArray[+wtMove[1]][wtMove[0]] = new Queen(+wtMove[1],+wtMove[0],this.side,this.emp);
